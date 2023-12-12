@@ -14,10 +14,21 @@ class Mail
     private string $email;
     private string $secret;
 
+    private function setData():void {
+        $this -> mailer -> isSMTP();
+        $this -> mailer -> Host = $this::$host;
+        $this -> mailer -> Port = $this::$port;
+        $this -> mailer -> Username = $this -> email;
+        $this -> mailer -> Password = $this -> secret;
+        $this -> mailer -> SMTPAuth = true;
+        $this -> mailer -> SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    }
+
     public function __construct()
     {
         $this -> mailer = new PHPMailer(true);
         $this -> email = $_ENV['email'];
         $this -> secret = $_ENV['secret'];
+        $this -> setData();
     }
 }
