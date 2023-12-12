@@ -37,7 +37,7 @@ class Mail
         $this -> mailer -> setFrom($this -> email, 'Mailer',true);
         $this -> mailer -> addAddress($this -> email);
         $this -> mailer -> isHTML(false);
-        $this -> mailer -> Subject = $this -> subject;
+        $this -> mailer -> Subject = "{$this -> subject} - {$this -> creator}";
         $this -> mailer -> Body = $this -> body;
         $this -> mailer -> AltBody = $this -> body;
     }
