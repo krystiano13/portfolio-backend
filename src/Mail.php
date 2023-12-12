@@ -56,9 +56,14 @@ class Mail
     }
 
     private function send():bool {
-        if($this -> mailer -> send()) {
-            return true;
+        try {
+            $this -> mailer -> send();
         }
-        return false;
+        catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+
     }
 }
