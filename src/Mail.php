@@ -32,8 +32,13 @@ class Mail
         return $this;
     }
 
-    private function setMailMessage() {
-
+    private function setMailMessage():void {
+        $this -> mailer -> setFrom($this -> from, 'Mailer',true);
+        $this -> mailer -> addAddress($this -> address);
+        $this -> mailer -> isHTML(false);
+        $this -> mailer -> Subject = $this -> subject;
+        $this -> mailer -> Body = $this -> body;
+        $this -> mailer -> AltBody = $this -> body;
     }
 
     public function __construct(string $from, string $address, string $subject, string $body)
@@ -48,5 +53,12 @@ class Mail
         $this -> body = $body;
 
         $this -> setData() -> setMailMessage();
+    }
+
+    private function send():bool {
+        if($this -> mailer -> send()) {
+            return true;
+        }
+        return false;
     }
 }
