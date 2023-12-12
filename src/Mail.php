@@ -19,6 +19,7 @@ class Mail
     private string $address;
     private string $subject;
     private string $body;
+    private string $creator;
 
     private function setData():self {
         $this -> mailer -> isSMTP();
@@ -33,29 +34,28 @@ class Mail
     }
 
     private function setMailMessage():void {
-        $this -> mailer -> setFrom($this -> from, 'Mailer',true);
-        $this -> mailer -> addAddress($this -> address);
+        $this -> mailer -> setFrom($this -> email, 'Mailer',true);
+        $this -> mailer -> addAddress($this -> email);
         $this -> mailer -> isHTML(false);
         $this -> mailer -> Subject = $this -> subject;
         $this -> mailer -> Body = $this -> body;
         $this -> mailer -> AltBody = $this -> body;
     }
 
-    public function __construct(string $from, string $address, string $subject, string $body)
+    public function __construct(string $subject, string $body, string $creator)
     {
         $this -> mailer = new PHPMailer(true);
         $this -> email = $_ENV['email'];
         $this -> secret = $_ENV['secret'];
 
-        $this -> from = $from;
-        $this -> address = $address;
         $this -> subject = $subject;
         $this -> body = $body;
+        $this -> creator = $creator;
 
         $this -> setData() -> setMailMessage();
     }
 
-    private function send():bool {
+    public function send():bool {
         try {
             $this -> mailer -> send();
         }
