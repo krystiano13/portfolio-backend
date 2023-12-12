@@ -14,7 +14,13 @@ class Mail
     private string $email;
     private string $secret;
 
-    private function setData():void {
+    //Mail message variables
+    private string $from;
+    private string $address;
+    private string $subject;
+    private string $body;
+
+    private function setData():self {
         $this -> mailer -> isSMTP();
         $this -> mailer -> Host = $this::$host;
         $this -> mailer -> Port = $this::$port;
@@ -22,13 +28,25 @@ class Mail
         $this -> mailer -> Password = $this -> secret;
         $this -> mailer -> SMTPAuth = true;
         $this -> mailer -> SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+
+        return $this;
     }
 
-    public function __construct()
+    private function setMailMessage() {
+
+    }
+
+    public function __construct(string $from, string $address, string $subject, string $body)
     {
         $this -> mailer = new PHPMailer(true);
         $this -> email = $_ENV['email'];
         $this -> secret = $_ENV['secret'];
-        $this -> setData();
+
+        $this -> from = $from;
+        $this -> address = $address;
+        $this -> subject = $subject;
+        $this -> body = $body;
+
+        $this -> setData() -> setMailMessage();
     }
 }
